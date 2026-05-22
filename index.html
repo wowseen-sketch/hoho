@@ -3353,7 +3353,7 @@
     html += `<circle cx="${cx}" cy="${cy}" r="42" fill="url(#cg)" filter="url(#glow)"/>`;
     html += `<circle cx="${cx}" cy="${cy}" r="42" fill="none" stroke="white" stroke-width="2" opacity="0.25"/>`;
     html += `<text x="${cx}" y="${cy-8}" text-anchor="middle"
-      font-family="Pretendard,sans-serif" font-size="14" font-weight="800" fill="white">${currentUser ? getDisplayName(currentUser.email) : 'Me'}</text>`;
+      font-family="Pretendard,sans-serif" font-size="14" font-weight="800" fill="white">${currentUser ? getDisplayName(currentUser) : 'Me'}</text>`;
     html += `<text x="${cx}" y="${cy+10}" text-anchor="middle"
       font-family="Pretendard,sans-serif" font-size="10.5" font-weight="500" fill="rgba(255,255,255,0.8)">12 experiences</text>`;
 
@@ -3382,6 +3382,11 @@
   }
 
   function navigate(target) {
+    // 비로그인 상태에서 보호된 페이지 접근 시 로그인 페이지로
+    const publicPages = ['login', 'signup'];
+    if (!currentUser && !publicPages.includes(target)) {
+      target = 'login';
+    }
     pages.forEach(p => {
       const el = document.getElementById('page-' + p);
       if (el) el.classList.remove('active');
@@ -3440,22 +3445,26 @@
 
   function normalizeUser(u) {
     if (!u) return null;
-    // 계정 생성 후 5분 이내면 신규 유저로 판별
     const createdAt = u.created_at ? new Date(u.created_at) : null;
     const isNew = createdAt ? (Date.now() - createdAt.getTime() < 5 * 60 * 1000) : false;
-    return { id: u.id, email: u.email || '', initials: getInitials(u.email), isNew };
+    // 구글 로그인 시 user_metadata에서 실제 이름 가져오기
+    const meta = u.user_metadata || {};
+    const displayName = meta.full_name || meta.name || meta.given_name || (u.email ? u.email.split('@')[0] : 'there');
+    return { id: u.id, email: u.email || '', initials: getInitials(u.email), isNew, displayName };
   }
 
-  function getDisplayName(email) {
-    if (!email) return 'there';
-    return email.split('@')[0] || 'there';
+  function getDisplayName(emailOrUser) {
+    // currentUser 객체를 받으면 displayName 우선 사용
+    if (emailOrUser && typeof emailOrUser === 'object') return emailOrUser.displayName || 'there';
+    if (!emailOrUser) return 'there';
+    return emailOrUser.split('@')[0] || 'there';
   }
 
   function updateDashboardGreeting() {
     const el = document.getElementById('dashboard-hero-title');
     if (!el) return;
     if (currentUser) {
-      const name = getDisplayName(currentUser.email);
+      const name = getDisplayName(currentUser);
       if (currentUser.isNew) {
         el.innerHTML = `Welcome to Exppi, <em>${name}</em>!<br>Let's build your career story`;
       } else {
@@ -3478,7 +3487,7 @@
     const uploadPhotoEl   = document.querySelector('[onclick="document.getElementById(\'profile-upload\').click()"]');
 
     if (currentUser) {
-      const displayName = getDisplayName(currentUser.email);
+      const displayName = getDisplayName(currentUser);
       if (initialsEl)     initialsEl.textContent = currentUser.initials;
       if (dotEl)          dotEl.style.display = 'block';
       if (sbEmailEl)      sbEmailEl.textContent = currentUser.email;
@@ -3505,6 +3514,10 @@
     const { data: { session } } = await supa.auth.getSession();
     currentUser = normalizeUser(session ? session.user : null);
     renderAuthUI();
+    // 비로그인 상태면 자동으로 로그인 페이지로 이동
+    if (!currentUser) {
+      navigate('login');
+    }
   }
 
   // Listen for auth changes from other tabs / token refresh / signOut / OAuth callback
