@@ -285,6 +285,49 @@
   }
   .form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(6,182,212,0.1); }
   .form-textarea { resize: vertical; min-height: 100px; font-family: var(--ff-head); font-size: 13px; line-height: 1.6; }
+
+  /* ── ANALYSIS MODAL: breakdown toggle & tooltip ── */
+  .am-breakdown-btn {
+    display: flex; align-items: center; gap: 6px;
+    width: 100%; background: none; border: none; padding: 0;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-4); cursor: pointer;
+  }
+  .am-breakdown-chevron {
+    font-size: 9px; color: var(--ink-4);
+  }
+  .am-breakdown-body { margin-top: 14px; display: flex; flex-direction: column; gap: 16px; }
+  .am-onet-callout {
+    background: #F8F9FA;
+    border: 1px solid #E4E7EC;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 12px;
+    color: #475467;
+    line-height: 1.65;
+    margin-bottom: 12px;
+  }
+  .am-cat-header {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink-4); margin-bottom: 10px;
+  }
+  .am-tooltip-wrap { position: relative; display: inline-flex; }
+  .am-tooltip-q {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 1.5px solid var(--ink-4); color: var(--ink-4);
+    font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+    cursor: default; flex-shrink: 0;
+  }
+  .am-tooltip-text {
+    display: none; position: absolute; left: 50%; bottom: calc(100% + 6px);
+    transform: translateX(-50%); background: #fff; color: #374151;
+    font-size: 11px; font-weight: 400; text-transform: none; letter-spacing: 0;
+    line-height: 1.5; padding: 7px 10px; border-radius: 7px;
+    width: 200px; white-space: normal; z-index: 999; pointer-events: none;
+    border: 1px solid #E5E7EB; box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+  }
+  .am-tooltip-wrap:hover .am-tooltip-text { display: block; }
   .form-select {
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%236B7280' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
@@ -304,6 +347,13 @@
     border-radius: 99px; border: 1px solid var(--accent-mid);
   }
   .kw-tag button { background: none; border: none; cursor: pointer; color: var(--accent-2); font-size: 14px; line-height: 1; padding: 0; margin-left: 2px; }
+  .kw-tag-grey {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 12px; font-weight: 500; padding: 4px 10px;
+    background: var(--surface-2); color: var(--ink-3);
+    border-radius: 99px; border: 1px solid var(--border);
+    cursor: default;
+  }
 
   .char-count { font-size: 11px; color: var(--ink-4); text-align: right; margin-top: 3px; }
 
@@ -781,58 +831,63 @@
 
   /* ── 칸반 레이아웃 ── */
   .blk-kanban {
-    display: flex; flex-direction: column; gap: 0;
-    padding: 0 0 40px;
-    min-height: calc(100vh - 200px);
+    display: flex;
+    flex-direction: column;
+    padding: 16px 24px 40px;
+    gap: 20px;
   }
   .blk-col {
     width: 100%;
-    border-bottom: 1px solid var(--border);
-    border-right: none;
-    padding: 16px 24px; display: flex;
-    flex-direction: row; align-items: flex-start; gap: 16px;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
-  .blk-col:last-child { border-bottom: none; }
-  .blk-col-bar {
-    width: 3px; border-radius: 99px;
-    align-self: stretch; flex-shrink: 0;
-    min-height: 40px;
-  }
+  .blk-col-bar { display: none; }
+  /* 헤더 박스 - 카드 위 구분선 역할 */
   .blk-col-header {
-    display: flex; flex-direction: column; gap: 8px;
-    width: 160px; flex-shrink: 0;
-    padding-top: 4px;
-    align-items: flex-start; justify-content: flex-start;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--surface);
+    border-radius: 10px;
+    width: 100%;
   }
   .blk-col-title {
-    font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
-    text-transform: uppercase; color: var(--ink-2);
-    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 8px;
   }
   .blk-col-count {
     font-size: 10px; font-weight: 700; color: var(--ink-4);
-    background: var(--surface); border: 1px solid var(--border);
-    padding: 1px 8px; border-radius: 99px; letter-spacing: 0;
+    background: var(--white); border: 1px solid var(--border);
+    padding: 1px 8px; border-radius: 99px;
   }
   .blk-col-add-btn {
     width: 26px; height: 26px; border-radius: 8px;
     border: 1px solid var(--border); background: var(--white);
     display: flex; align-items: center; justify-content: center;
     cursor: pointer; color: var(--ink-3); font-size: 16px; line-height: 1;
-    transition: all 0.15s; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    transition: all 0.15s;
   }
   .blk-col-add-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
-
-  /* 칸반 카드 */
+  /* 카드들 가로 나열 */
+  .blk-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px;
+    align-content: flex-start;
+    width: 100%;
+  }
   .blk-card {
     background: var(--white); border: 1px solid var(--border);
-    border-radius: 12px; padding: 16px 16px 12px;
-    margin-bottom: 10px; cursor: pointer;
-    transition: box-shadow 0.15s, border-color 0.15s;
+    border-radius: 12px; padding: 14px 14px 10px;
+    cursor: pointer;
+    transition: box-shadow 0.2s, border-color 0.2s;
     box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-    display: flex; flex-direction: column; gap: 6px;
-    position: relative;
+    display: flex; flex-direction: column; gap: 5px;
+    position: relative; width: 240px; flex-shrink: 0;
   }
   .blk-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.10); border-color: var(--border-strong); }
   .blk-card-top { display: none; }
@@ -848,17 +903,10 @@
   }
   .blk-folder-svg { display: none; }
   .blk-folder-info { display: none; }
-  .blk-grid { display: flex; flex-wrap: wrap; gap: 12px; flex: 1; align-content: flex-start; }
-
-  /* 추가 버튼 */
   .blk-add {
     border: 1.5px dashed var(--border-strong) !important;
     background: transparent !important; border-radius: 10px !important;
-    padding: 12px !important; display: flex !important;
-    align-items: center !important; justify-content: center !important;
-    gap: 6px; cursor: pointer; color: var(--ink-4);
-    font-size: 13px; width: 100%; box-shadow: none !important;
-    transition: all 0.15s; margin-top: 2px;
+    padding: 12px !important; display: none !important;
   }
   .blk-add:hover { border-color: var(--accent) !important; color: var(--accent) !important; background: var(--accent-light) !important; }
 
@@ -1540,11 +1588,11 @@
           <div style="display:flex;flex-direction:column;gap:14px;">
             <div class="form-group form-full" style="margin:0;">
               <label class="form-label" style="display:flex;align-items:center;gap:6px;">① Goal</label>
-              <input id="exp-goal" class="form-input" type="text" placeholder='e.g. "Increase new member sign-ups by 50 within one semester"'>
+              <textarea id="exp-goal" class="form-input form-textarea" placeholder='e.g. "Our team noticed that users rarely revisited the ranking feature after their first interaction, so our goal was to improve repeat participation and increase 20% engagement within the service."' style="min-height:80px;"></textarea>
             </div>
             <div class="form-group form-full" style="margin:0;">
               <label class="form-label">② Strategy</label>
-              <input id="exp-strategy" class="form-input" type="text" placeholder='e.g. "Launched a peer referral program and redesigned the intro session"'>
+              <textarea id="exp-strategy" class="form-input form-textarea" placeholder='e.g. "We analyzed user behavior patterns, reviewed competitor engagement features, and planned interaction-based improvements to make participation feel more rewarding and accessible."' style="min-height:80px;"></textarea>
             </div>
           </div>
         </div>
@@ -1562,12 +1610,12 @@
           </div>
           <div style="display:flex;flex-direction:column;gap:14px;">
             <div class="form-group form-full" style="margin:0;">
-              <label class="form-label">① Your actions <span style="font-size:10px;color:var(--ink-4);font-weight:400;text-transform:none;letter-spacing:0;">(TIP: highlight what YOU led)</span></label>
-              <textarea id="exp-actions" class="form-input form-textarea" placeholder='e.g. "Built 60 surveys, led weekly data reviews, managed vendor calls"' style="min-height:80px;"></textarea>
+              <label class="form-label">① Your actions</label>
+              <textarea id="exp-actions" class="form-input form-textarea" placeholder='e.g. "I organized survey flows for 60 participants, led weekly user analysis sessions, and coordinated feature discussions across designers and developers to improve the onboarding experience."' style="min-height:80px;"></textarea>
             </div>
             <div class="form-group form-full" style="margin:0;">
               <label class="form-label" style="display:flex;align-items:center;gap:8px;">③ Unexpected challenge &amp; how you handled it <span style="font-size:10px;color:var(--ink-4);font-weight:400;text-transform:none;letter-spacing:0;background:var(--surface-2);padding:2px 8px;border-radius:99px;">Optional</span></label>
-              <input id="exp-challenge" class="form-input" type="text" placeholder='e.g. "Two members quit mid-project; I split their tasks and kept the deadline"'>
+              <textarea id="exp-challenge" class="form-input form-textarea" placeholder='e.g. "When user feedback responses dropped during testing, I redesigned the survey structure and directly contacted inactive participants to improve response rates before the final review."' style="min-height:80px;"></textarea>
             </div>
           </div>
         </div>
@@ -1585,7 +1633,7 @@
           </div>
           <div class="form-group form-full" style="margin:0;">
             <label class="form-label">① Measurable outcome</label>
-            <input id="exp-outcome" class="form-input" type="text" placeholder='e.g. "Recruited 240 members — 120% of our 200 target, within 6 weeks"'>
+            <textarea id="exp-outcome" class="form-input form-textarea" placeholder='e.g. "The redesigned participation flow increased internal test engagement by 23%, and over 70% of surveyed users responded positively to the new interaction feature."' style="min-height:80px;"></textarea>
           </div>
         </div>
 
@@ -1603,11 +1651,11 @@
           <div style="display:flex;flex-direction:column;gap:14px;">
             <div class="form-group form-full" style="margin:0;">
               <label class="form-label">① Key takeaway</label>
-              <input id="exp-takeaway" class="form-input" type="text" placeholder='e.g. "I realized I&apos;d been optimizing the wrong metric the entire time"'>
+              <textarea id="exp-takeaway" class="form-input form-textarea" placeholder='e.g. "I realized that improving user engagement was not just about adding features, but about reducing friction and understanding user motivation more deeply."' style="min-height:80px;"></textarea>
             </div>
             <div class="form-group form-full" style="margin:0;">
               <label class="form-label" style="display:flex;align-items:center;gap:8px;">② Applied elsewhere <span style="font-size:10px;color:var(--ink-4);font-weight:400;text-transform:none;letter-spacing:0;background:var(--surface-2);padding:2px 8px;border-radius:99px;">Optional</span></label>
-              <input id="exp-applied" class="form-input" type="text" placeholder='e.g. "Applied the same audit process to our next campaign — caught the issue in week one"'>
+              <textarea id="exp-applied" class="form-input form-textarea" placeholder='e.g. "I later applied the same user feedback analysis process to another project, which helped our team identify usability issues much earlier in development."' style="min-height:80px;"></textarea>
             </div>
           </div>
         </div>
@@ -1675,82 +1723,47 @@
 
         <!-- PROJECT -->
         <div class="blk-col blk-section" data-category="project">
-          <div class="blk-col-bar" style="background:#0081DD;"></div>
-          <div class="blk-col-header">
-            <div class="blk-col-title">
-              <span style="width:7px;height:7px;border-radius:50%;background:#0081DD;display:inline-block;"></span>
-              Project
-              <span class="blk-col-count blk-section-count">0</span>
-            </div>
+          <div class="blk-col-header" style="border-left: 4px solid #0081DD; padding-left: 14px;">
+            <div class="blk-col-title" style="color:#0081DD;">Project <span class="blk-col-count blk-section-count">0</span></div>
             <div class="blk-col-add-btn" onclick="navigate('add')">+</div>
           </div>
-          <div class="blk-grid">
-
-          </div>
+          <div class="blk-grid"></div>
         </div>
 
         <!-- WORK EXPERIENCE -->
         <div class="blk-col blk-section" data-category="work">
-          <div class="blk-col-bar" style="background:#38BDE0;"></div>
-          <div class="blk-col-header">
-            <div class="blk-col-title">
-              <span style="width:7px;height:7px;border-radius:50%;background:#38BDE0;display:inline-block;"></span>
-              Work Experience
-              <span class="blk-col-count blk-section-count">0</span>
-            </div>
+          <div class="blk-col-header" style="border-left: 4px solid #38BDE0; padding-left: 14px;">
+            <div class="blk-col-title" style="color:#38BDE0;">Work Experience <span class="blk-col-count blk-section-count">0</span></div>
             <div class="blk-col-add-btn" onclick="navigate('add')">+</div>
           </div>
-          <div class="blk-grid">
-
-          </div>
+          <div class="blk-grid"></div>
         </div>
 
         <!-- LEADERSHIP -->
         <div class="blk-col blk-section" data-category="leadership">
-          <div class="blk-col-bar" style="background:#00A896;"></div>
-          <div class="blk-col-header">
-            <div class="blk-col-title">
-              <span style="width:7px;height:7px;border-radius:50%;background:#00A896;display:inline-block;"></span>
-              Leadership
-              <span class="blk-col-count blk-section-count">0</span>
-            </div>
+          <div class="blk-col-header" style="border-left: 4px solid #00A896; padding-left: 14px;">
+            <div class="blk-col-title" style="color:#00A896;">Leadership <span class="blk-col-count blk-section-count">0</span></div>
             <div class="blk-col-add-btn" onclick="navigate('add')">+</div>
           </div>
-          <div class="blk-grid">
-
-          </div>
+          <div class="blk-grid"></div>
         </div>
 
         <!-- EDUCATION -->
         <div class="blk-col blk-section" data-category="education">
-          <div class="blk-col-bar" style="background:#006DAA;"></div>
-          <div class="blk-col-header">
-            <div class="blk-col-title">
-              <span style="width:7px;height:7px;border-radius:50%;background:#006DAA;display:inline-block;"></span>
-              Education
-              <span class="blk-col-count blk-section-count">0</span>
-            </div>
+          <div class="blk-col-header" style="border-left: 4px solid #006DAA; padding-left: 14px;">
+            <div class="blk-col-title" style="color:#006DAA;">Education <span class="blk-col-count blk-section-count">0</span></div>
             <div class="blk-col-add-btn" onclick="navigate('add')">+</div>
           </div>
-          <div class="blk-grid">
-
-          </div>
+          <div class="blk-grid"></div>
         </div>
 
         <!-- EXTRACURRICULAR -->
         <div class="blk-col blk-section" data-category="extra">
-          <div class="blk-col-bar" style="background:#77CCE0;"></div>
-          <div class="blk-col-header">
-            <div class="blk-col-title">
-              <span style="width:7px;height:7px;border-radius:50%;background:#77CCE0;display:inline-block;"></span>
-              Extracurricular
-              <span class="blk-col-count blk-section-count">0</span>
-            </div>
+          <div class="blk-col-header" style="border-left: 4px solid #77CCE0; padding-left: 14px;">
+            <div class="blk-col-title" style="color:#77CCE0;">Extracurricular <span class="blk-col-count blk-section-count">0</span></div>
             <div class="blk-col-add-btn" onclick="navigate('add')">+</div>
           </div>
-          <div class="blk-grid">
-
-          </div>
+          <div class="blk-grid"></div>
         </div>
 
       </div>
@@ -2725,36 +2738,66 @@
         </div>
 
         <!-- Result state -->
-        <div id="am-analysis-result" style="display:flex;flex-direction:column;gap:24px;">
+        <div id="am-analysis-result" style="display:flex;flex-direction:column;gap:20px;">
 
-          <!-- Work Activities -->
-          <div>
-            <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-4);margin-bottom:10px;">Work Activities</div>
-            <div id="am-work-activities" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
-          </div>
-
-          <div style="height:1px;background:var(--border);"></div>
-
-          <!-- Transferable Skills -->
-          <div>
-            <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-4);margin-bottom:10px;">Transferable Skills</div>
-            <div id="am-transferable-skills" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
-          </div>
-
-          <div style="height:1px;background:var(--border);"></div>
-
-          <!-- Software Skills -->
-          <div>
-            <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-4);margin-bottom:10px;">Software Skills</div>
-            <div id="am-software-skills" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
-          </div>
-
-          <div style="height:1px;background:var(--border);"></div>
-
-          <!-- Competency Keywords -->
+          <!-- Competency Keywords (top) -->
           <div>
             <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-4);margin-bottom:10px;">Competency Keywords</div>
             <div id="am-competency-keywords" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+          </div>
+
+          <div style="height:1px;background:var(--border);"></div>
+
+          <!-- Analysis Breakdown toggle -->
+          <div>
+            <button class="am-breakdown-btn" onclick="toggleAmBreakdown()">
+              <span class="am-breakdown-chevron" id="am-breakdown-chevron">▶</span>
+              Analysis Breakdown
+            </button>
+
+            <div class="am-breakdown-body" id="am-breakdown-body" style="display:none;">
+
+              <!-- Work Activities -->
+              <div>
+                <div class="am-cat-header">
+                  Work Activities
+                  <div class="am-tooltip-wrap">
+                    <div class="am-tooltip-q">?</div>
+                    <div class="am-tooltip-text">Activities performed across a number of occupations.</div>
+                  </div>
+                </div>
+                <div id="am-work-activities" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+              </div>
+
+              <div style="height:1px;background:var(--border);"></div>
+
+              <!-- Transferable Skills -->
+              <div>
+                <div class="am-cat-header">
+                  Transferable Skills
+                  <div class="am-tooltip-wrap">
+                    <div class="am-tooltip-q">?</div>
+                    <div class="am-tooltip-text">Skills you can use across different jobs.</div>
+                  </div>
+                </div>
+                <div id="am-transferable-skills" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+              </div>
+
+              <div style="height:1px;background:var(--border);"></div>
+
+              <!-- Software Skills -->
+              <div>
+                <div class="am-cat-header">
+                  Software Skills
+                  <div class="am-tooltip-wrap">
+                    <div class="am-tooltip-q">?</div>
+                    <div class="am-tooltip-text">Skills using specific programs and applications for work tasks.</div>
+                  </div>
+                </div>
+                <div id="am-software-skills" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+              </div>
+
+            </div>
           </div>
 
         </div>
@@ -2777,7 +2820,61 @@
   </div>
 </div>
 
+<!-- ── BLOCK DETAIL / EDIT MODAL ─────────────────────────────
+     View + inline-edit for a saved experience_blocks row.
+     Body (#bd-body) and footer (#bd-footer) are rendered by JS
+     (renderBlockDetail) depending on view vs. edit mode. -->
+<div id="block-detail-modal" style="display:none;position:fixed;inset:0;z-index:520;align-items:center;justify-content:center;">
+  <!-- backdrop -->
+  <div onclick="closeBlockDetail()" style="position:absolute;inset:0;background:rgba(17,24,39,0.5);backdrop-filter:blur(6px);"></div>
+
+  <!-- modal card -->
+  <div style="position:relative;width:90vw;max-width:880px;height:88vh;max-height:820px;background:var(--white);border-radius:20px;box-shadow:0 32px 80px rgba(0,0,0,0.22);overflow:hidden;display:flex;flex-direction:column;animation:modalIn 0.24s ease;">
+
+    <!-- HEADER -->
+    <div style="background:linear-gradient(135deg,#0081DD 0%,#38BDE0 60%,#77FFE4 100%);padding:22px 28px;flex-shrink:0;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+          <div style="width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <i class="ti ti-stack-2" style="font-size:20px;color:#fff;"></i>
+          </div>
+          <div style="min-width:0;">
+            <div id="bd-eyebrow" style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.7);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:2px;">Experience Block</div>
+            <div id="bd-title" style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Title</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+          <div id="bd-subtitle" style="font-size:12px;color:rgba(255,255,255,0.65);white-space:nowrap;"></div>
+          <button onclick="closeBlockDetail()" title="Close" style="background:rgba(255,255,255,0.2);border:none;width:34px;height:34px;border-radius:50%;cursor:pointer;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;margin-left:8px;flex-shrink:0;">
+            <i class="ti ti-x"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BODY (rendered by renderBlockDetail) -->
+    <div id="bd-body" style="flex:1;overflow-y:auto;padding:26px 30px;background:#fff;"></div>
+
+    <!-- FOOTER (buttons rendered by renderBlockDetail) -->
+    <div style="padding:16px 28px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--white);flex-shrink:0;">
+      <div id="bd-status" style="font-size:12px;color:var(--ink-4);"></div>
+      <div id="bd-footer" style="margin-left:auto;display:flex;align-items:center;gap:10px;"></div>
+    </div>
+
+  </div>
+</div>
+
 <style>
+  /* ── BLOCK DETAIL MODAL ── */
+  .bd-section-label { font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-4);margin:22px 0 12px; }
+  .bd-section-label:first-child { margin-top:0; }
+  .bd-field { margin-bottom:14px; }
+  .bd-field-label { font-size:11px;font-weight:600;color:var(--ink-4);margin-bottom:5px;display:block; }
+  .bd-field-value { font-size:13px;color:var(--ink-2);line-height:1.7;white-space:pre-wrap;word-break:break-word; }
+  .bd-field-value.empty { color:var(--ink-4);font-style:italic; }
+  .bd-grid-2 { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+  .bd-tags { display:flex;flex-wrap:wrap;gap:6px; }
+
   @keyframes modalIn { from { opacity:0; transform:translateY(20px) scale(0.97); } to { opacity:1; transform:none; } }
   @keyframes fadeIn { from { opacity:0; transform:translateX(-6px); } to { opacity:1; transform:none; } }
 
@@ -2858,6 +2955,26 @@
 </div>
 
 <script>
+  // ── ANALYSIS BREAKDOWN TOGGLE ────────────────
+  function toggleAmBreakdown() {
+    const body = document.getElementById('am-breakdown-body');
+    const chevron = document.getElementById('am-breakdown-chevron');
+    const isOpen = body.style.display !== 'none';
+    body.style.display = isOpen ? 'none' : 'flex';
+    chevron.textContent = isOpen ? '▶' : '▼';
+  }
+
+  // ── TEXTAREA AUTO-RESIZE ──────────────────────
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = el.scrollHeight + 'px';
+  }
+  document.addEventListener('input', function(e) {
+    if (e.target.matches('#exp-goal, #exp-strategy, #exp-actions, #exp-challenge, #exp-outcome, #exp-takeaway, #exp-applied')) {
+      autoResize(e.target);
+    }
+  });
+
   // ── SUPABASE CLIENT ──────────────────────────
   const SUPABASE_URL = 'https://ovrcmolacpcjsghqgxlb.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92cmNtb2xhY3BjanNnaHFneGxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5NDE4NzYsImV4cCI6MjA5MzUxNzg3Nn0.N6zcPpd8tS2PzWBNWni1NIRHGCYaYThoRC6aKTN_ANE';
@@ -2908,10 +3025,10 @@
     }
 
     const tips = {
-      'tip-plan': '💡 Be specific about the goal. "Increase new member sign-ups by 50 within one semester" is stronger than "grow membership." Include a number if you had one.',
-      'tip-do': '💡 Use strong action verbs (Spearheaded, Orchestrated, Led, Built). If you led something, say so explicitly — don\'t be modest. The more specific, the better.',
-      'tip-check': '💡 Numbers speak louder than words. "Recruited 240 members — 120% of our 200 target, within 6 weeks" is far more compelling than "successfully recruited members."',
-      'tip-act': '💡 Interviewers love seeing self-awareness. What would you do differently? How did this shape how you work now?'
+      'tip-plan': '💡 Clearly explain the problem you wanted to solve and the direction you planned to take. Specific goals and context help us understand your decision-making process.',
+      'tip-do': '💡 Clearly describe what YOU contributed and how you approached the work. If you led, initiated, or improved something, make it explicit using action-focused language.',
+      'tip-check': '💡 Include measurable outcomes whenever possible. Numbers, growth, participation, efficiency, or impact make your experience more convincing.',
+      'tip-act': '💡 Reflect on what you learned or how your perspective changed. Think about insights, decisions, or approaches you later applied elsewhere.'
     };
 
     const popover = document.createElement('div');
@@ -3177,11 +3294,11 @@
     el.style.color = isError ? 'var(--danger)' : 'var(--ink-4)';
   }
 
-  function renderAnalysisTags(elId, items) {
+  function renderAnalysisTags(elId, items, tagClass = 'kw-tag') {
     const el = document.getElementById(elId);
     if (!el) return;
     el.innerHTML = items.length
-      ? items.map(k => `<span class="kw-tag" style="cursor:default;">${escapeHtml(k)}</span>`).join('')
+      ? items.map(k => `<span class="${tagClass}" style="cursor:default;">${escapeHtml(k)}</span>`).join('')
       : `<span style="font-size:12px;color:var(--ink-4);">None identified</span>`;
   }
 
@@ -3229,10 +3346,23 @@
     if (resultEl)  { resultEl.style.display  = 'flex'; }
     if (reBtn)     { reBtn.disabled = false; reBtn.style.opacity = ''; }
 
-    renderAnalysisTags('am-work-activities',     _cachedAnalysis.work_activities     || []);
-    renderAnalysisTags('am-transferable-skills', _cachedAnalysis.transferable_skills || []);
-    renderAnalysisTags('am-software-skills',     _cachedAnalysis.software_skills     || []);
+    renderAnalysisTags('am-work-activities',     _cachedAnalysis.work_activities     || [], 'kw-tag-grey');
+    renderAnalysisTags('am-transferable-skills', _cachedAnalysis.transferable_skills || [], 'kw-tag-grey');
+    renderAnalysisTags('am-software-skills',     _cachedAnalysis.software_skills     || [], 'kw-tag-grey');
     renderAnalysisTags('am-competency-keywords', _cachedAnalysis.competency_keywords || []);
+
+    // Inject O*NET callout dynamically right after #am-competency-keywords tags
+    if (!document.getElementById('am-onet-callout')) {
+      const callout = document.createElement('div');
+      callout.id = 'am-onet-callout';
+      callout.className = 'am-onet-callout';
+      callout.textContent = 'We analyze your experience based on O*NET — the official occupational classification system provided by the U.S. Department of Labor.';
+      const kwSection = document.getElementById('am-competency-keywords');
+      if (kwSection && kwSection.parentNode) {
+        // insert after the wrapper div (kwSection.parentNode), as a sibling in #am-analysis-result
+        kwSection.parentNode.after(callout);
+      }
+    }
 
     if (_cachedAnalysis.competency_keywords?.length) {
       setAnalysisModalStatus('Ready to save this experience?', false);
@@ -3376,15 +3506,29 @@
         <div style="font-size:10px;font-weight:600;color:${hasOutcome ? 'var(--success)' : 'var(--warn)'};display:flex;align-items:center;gap:4px;">
           <i class="ti ti-circle-check" style="font-size:12px;"></i> ${hasOutcome ? 'OUTCOME OPTIMIZED' : 'NEEDS OUTCOME'}
         </div>
-        <button class="blk-card-edit-btn" onclick="event.stopPropagation()" style="background:none;border:none;color:#9CA3AF;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:4px;opacity:0.6;">
+        <button class="blk-card-edit-btn" style="background:none;border:none;color:#9CA3AF;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:4px;opacity:0.6;">
           <i class="ti ti-edit" style="font-size:11px;"></i> Edit
         </button>
       </div>
     `;
+
+    // Card body click → detail (view) modal. Ignore clicks on the checkbox and
+    // Edit button (they have their own handlers / open edit mode directly).
+    el.addEventListener('click', e => {
+      if (e.target.closest('.blk-card-check')) return;
+      if (e.target.closest('.blk-card-edit-btn')) return;
+      openBlockDetail(row, false);
+    });
+    const editBtn = el.querySelector('.blk-card-edit-btn');
+    if (editBtn) editBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      openBlockDetail(row, true);
+    });
+
     return el;
   }
 
-  // Distribute rows into the 5 category sections (in-place, before each "Add Block" tile).
+  // Distribute rows into category sections
   function renderBlocks(rows) {
     clearDynamicBlocks();
 
@@ -3397,9 +3541,9 @@
     Object.entries(buckets).forEach(([cat, list]) => {
       const section = document.querySelector(`.blk-section[data-category="${cat}"]`);
       if (!section) return;
-      const grid    = section.querySelector('.blk-grid');
-      const addCard = grid.querySelector('.blk-add');
-      list.forEach(row => grid.insertBefore(buildBlockCard(row, cat), addCard));
+      const grid = section.querySelector('.blk-grid');
+      if (!grid) return;
+      list.forEach(row => grid.appendChild(buildBlockCard(row, cat)));
       const countEl = section.querySelector('.blk-section-count');
       if (countEl) countEl.textContent = list.length;
     });
@@ -3464,6 +3608,264 @@
     showSaveToast._t = setTimeout(() => { t.style.display = 'none'; }, 2400);
   }
 
+  // ── BLOCK DETAIL / EDIT MODAL ──────────────────
+  // View + inline-edit for a single experience_blocks row. v1 edits text fields
+  // only — the AI arrays (work_activities, …) are shown read-only and untouched.
+  let _bdRow = null;       // row currently displayed
+  let _bdEditing = false;  // false = view, true = edit
+
+  // Fixed activity_type choices (mirror activityTypeToCategory keys).
+  const BD_ACTIVITY_TYPES = [
+    'Project', 'Work Experience', 'Internship',
+    'Leadership', 'Education / Certification', 'Extracurricular',
+  ];
+  // PDCA text fields — [db column, label]. Drives both render and collect.
+  const BD_PDCA_FIELDS = [
+    ['goal',                'Goal'],
+    ['strategy',            'Strategy'],
+    ['actions',             'Actions'],
+    ['failure_improvement', 'Failure & Improvement'],
+    ['outcome_measurable',  'Measurable Outcome'],
+    ['takeaway',            'Takeaway'],
+    ['applied',             'Applied Elsewhere'],
+  ];
+  // AI result arrays — [db column, label]. Read-only in v1.
+  const BD_AI_FIELDS = [
+    ['work_activities',     'Work Activities'],
+    ['software_skills',     'Software Skills'],
+    ['transferable_skills', 'Transferable Skills'],
+    ['competency_keywords', 'Competency Keywords'],
+  ];
+
+  const _bdFmtMonth = d => d ? d.slice(0, 7).replace('-', '.') : null;
+
+  // "YYYY.MM – YYYY.MM" (or "… – Present"); null when no dates at all.
+  function bdPeriodStr(row) {
+    const start = _bdFmtMonth(row.start_date);
+    const end   = row.is_current ? 'Present' : _bdFmtMonth(row.end_date);
+    if (!start && !end) return null;
+    return `${start || '?'} – ${end || '?'}`;
+  }
+
+  // "{type} · {period} · {role}" header subtitle.
+  function bdSubtitle(row) {
+    const parts = [];
+    if (row.activity_type) parts.push(row.activity_type);
+    const period = bdPeriodStr(row);
+    if (period)            parts.push(period);
+    if (row.role)          parts.push(row.role);
+    return parts.join(' · ');
+  }
+
+  function setBdStatus(msg, isError) {
+    const el = document.getElementById('bd-status');
+    if (!el) return;
+    el.textContent = msg || '';
+    el.style.color = isError ? 'var(--danger)' : 'var(--ink-4)';
+  }
+
+  function openBlockDetail(row, startInEdit) {
+    if (!row) return;
+    _bdRow = row;
+    _bdEditing = !!startInEdit;
+    setBdStatus('');
+    renderBlockDetail();
+    const m = document.getElementById('block-detail-modal');
+    if (m) m.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeBlockDetail() {
+    const m = document.getElementById('block-detail-modal');
+    if (m) m.style.display = 'none';
+    document.body.style.overflow = '';
+    _bdRow = null;
+    _bdEditing = false;
+    setBdStatus('');
+  }
+
+  function enterBlockEdit()  { _bdEditing = true;  setBdStatus(''); renderBlockDetail(); }
+  function cancelBlockEdit() { _bdEditing = false; setBdStatus(''); renderBlockDetail(); }
+
+  // Read-only tag list (used in both view and edit modes for AI arrays).
+  function bdTagsHtml(arr) {
+    const items = Array.isArray(arr) ? arr.filter(Boolean) : [];
+    return items.length
+      ? `<div class="bd-tags">${items.map(t => `<span class="kw-tag" style="cursor:default;">${escapeHtml(t)}</span>`).join('')}</div>`
+      : `<div class="bd-field-value empty">None identified</div>`;
+  }
+
+  function bdViewHtml(row) {
+    const v = x => (x != null && String(x).trim()) ? escapeHtml(x) : null;
+    const basicRow = (label, val) =>
+      `<div class="bd-field"><span class="bd-field-label">${label}</span>
+        <div class="bd-field-value${val ? '' : ' empty'}">${val || '—'}</div></div>`;
+
+    const period = bdPeriodStr(row);
+
+    return `
+      <div class="bd-section-label">Overview</div>
+      <div class="bd-grid-2">
+        ${basicRow('Activity Type', v(row.activity_type))}
+        ${basicRow('Organization',  v(row.organization))}
+        ${basicRow('Period',        period ? escapeHtml(period) : null)}
+        ${basicRow('Role',          v(row.role))}
+      </div>
+
+      <div class="bd-section-label">PDCA Structured Experience</div>
+      ${BD_PDCA_FIELDS.map(([col, label]) => basicRow(label, v(row[col]))).join('')}
+
+      <div class="bd-section-label">AI Analysis Results</div>
+      ${BD_AI_FIELDS.map(([col, label]) =>
+        `<div class="bd-field"><span class="bd-field-label">${label}</span>${bdTagsHtml(row[col])}</div>`).join('')}
+    `;
+  }
+
+  function bdActivityOptions(current) {
+    const opts = BD_ACTIVITY_TYPES.slice();
+    if (current && !opts.includes(current)) opts.unshift(current); // keep legacy values
+    return opts.map(o => `<option value="${escapeHtml(o)}"${o === current ? ' selected' : ''}>${escapeHtml(o)}</option>`).join('');
+  }
+
+  function bdEditHtml(row) {
+    const month = d => d ? escapeHtml(d.slice(0, 7)) : '';
+    const txt = (id, val) => `<input id="${id}" class="form-input" type="text" value="${escapeHtml(val || '')}">`;
+    return `
+      <div class="bd-section-label">Overview</div>
+      <div class="bd-field">
+        <label class="bd-field-label" for="bd-title-input">Title</label>
+        ${txt('bd-title-input', row.title)}
+      </div>
+      <div class="bd-grid-2">
+        <div class="bd-field">
+          <label class="bd-field-label" for="bd-activity-type">Activity Type</label>
+          <select id="bd-activity-type" class="form-input form-select">${bdActivityOptions(row.activity_type)}</select>
+        </div>
+        <div class="bd-field">
+          <label class="bd-field-label" for="bd-org">Organization</label>
+          ${txt('bd-org', row.organization)}
+        </div>
+        <div class="bd-field">
+          <label class="bd-field-label" for="bd-start">Start</label>
+          <input id="bd-start" class="form-input" type="month" value="${month(row.start_date)}">
+        </div>
+        <div class="bd-field">
+          <label class="bd-field-label" for="bd-end">End</label>
+          <input id="bd-end" class="form-input" type="month" value="${row.is_current ? '' : month(row.end_date)}">
+        </div>
+      </div>
+      <div class="bd-field" style="display:flex;align-items:center;gap:8px;">
+        <input id="bd-current" type="checkbox" ${row.is_current ? 'checked' : ''} onchange="bdSyncCurrent()" style="width:15px;height:15px;cursor:pointer;accent-color:var(--accent-2);">
+        <label for="bd-current" style="font-size:12px;color:var(--ink-2);cursor:pointer;">Currently ongoing</label>
+      </div>
+      <div class="bd-field">
+        <label class="bd-field-label" for="bd-role">Role</label>
+        ${txt('bd-role', row.role)}
+      </div>
+
+      <div class="bd-section-label">PDCA Structured Experience</div>
+      ${BD_PDCA_FIELDS.map(([col, label]) => `
+        <div class="bd-field">
+          <label class="bd-field-label" for="bd-${col}">${label}</label>
+          <textarea id="bd-${col}" class="form-input form-textarea" rows="3" style="min-height:70px;">${escapeHtml(row[col] || '')}</textarea>
+        </div>`).join('')}
+
+      <div class="bd-section-label">AI Analysis Results <span style="text-transform:none;font-weight:500;color:var(--ink-4);">· read-only (re-analyze to update)</span></div>
+      ${BD_AI_FIELDS.map(([col, label]) =>
+        `<div class="bd-field"><span class="bd-field-label">${label}</span>${bdTagsHtml(row[col])}</div>`).join('')}
+    `;
+  }
+
+  // Disable the End input while "Currently ongoing" is checked.
+  function bdSyncCurrent() {
+    const cb = document.getElementById('bd-current');
+    const end = document.getElementById('bd-end');
+    if (!cb || !end) return;
+    end.disabled = cb.checked;
+    end.style.opacity = cb.checked ? '0.5' : '';
+  }
+
+  function renderBlockDetail() {
+    const row = _bdRow;
+    if (!row) return;
+    const set = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+    set('bd-title',    row.title || 'Untitled');
+    set('bd-eyebrow',  _bdEditing ? 'Editing Block' : 'Experience Block');
+    set('bd-subtitle', bdSubtitle(row));
+
+    const body = document.getElementById('bd-body');
+    if (body) body.innerHTML = _bdEditing ? bdEditHtml(row) : bdViewHtml(row);
+
+    const footer = document.getElementById('bd-footer');
+    if (footer) {
+      footer.innerHTML = _bdEditing
+        ? `<button onclick="cancelBlockEdit()" class="btn-secondary-lg">Cancel</button>
+           <button id="bd-save-btn" onclick="saveBlockEdit()" style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#fff;background:linear-gradient(135deg,#0081DD,#38BDE0);border:none;padding:11px 22px;border-radius:var(--rl);cursor:pointer;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'"><i class="ti ti-device-floppy" style="font-size:15px;"></i> Save changes</button>`
+        : `<button onclick="closeBlockDetail()" class="btn-secondary-lg">Close</button>
+           <button onclick="enterBlockEdit()" class="btn-secondary-lg" style="display:flex;align-items:center;gap:5px;"><i class="ti ti-edit" style="font-size:14px;color:var(--accent);"></i> Edit</button>`;
+    }
+
+    if (_bdEditing) bdSyncCurrent();
+  }
+
+  // Persist edited text fields. AI arrays + user_id + created_at are left untouched.
+  async function saveBlockEdit() {
+    if (!currentUser || !_bdRow) { closeBlockDetail(); return; }
+
+    const val = id => (document.getElementById(id)?.value || '').trim();
+    const isCurrent = document.getElementById('bd-current')?.checked || false;
+    const m2d = m => m ? `${m}-01` : null;
+
+    // Validate.
+    const title = val('bd-title-input');
+    if (!title)                       { setBdStatus('Title is required', true); return; }
+    const activity_type = val('bd-activity-type');
+    if (!activity_type)               { setBdStatus('Activity type is required', true); return; }
+    const start = val('bd-start');
+    if (!start)                       { setBdStatus('Start date is required', true); return; }
+    if (!isCurrent && !val('bd-end')) { setBdStatus('End date is required (or mark as ongoing)', true); return; }
+
+    const patch = {
+      title,
+      activity_type,
+      organization: val('bd-org'),
+      start_date:   m2d(start),
+      end_date:     isCurrent ? null : m2d(val('bd-end')),
+      is_current:   isCurrent,
+      role:         val('bd-role'),
+    };
+    BD_PDCA_FIELDS.forEach(([col]) => { patch[col] = val('bd-' + col); });
+
+    const btn = document.getElementById('bd-save-btn');
+    setBdStatus('Saving…', false);
+    if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; btn.style.cursor = 'wait'; }
+
+    const { error } = await supa
+      .from('experience_blocks')
+      .update(patch)
+      .eq('id', _bdRow.id)
+      .eq('user_id', currentUser.id);
+
+    if (btn) { btn.disabled = false; btn.style.opacity = ''; btn.style.cursor = ''; }
+
+    if (error) {
+      setBdStatus(`Save failed: ${error.message}`, true);
+      return;
+    }
+
+    closeBlockDetail();
+    showSaveToast('Experience block updated');
+    loadUserBlocks();
+  }
+
+  // ESC closes the detail modal (mirrors backdrop/X). Scoped to this modal only.
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' &&
+        document.getElementById('block-detail-modal')?.style.display === 'flex') {
+      closeBlockDetail();
+    }
+  });
+
   // ── MIND MAP ──────────────────────────────
   function renderMindmap() {
     const wrap = document.getElementById('mindmap-wrap');
@@ -3477,14 +3879,14 @@
     svg.setAttribute('height', H);
 
     // center node position (slightly left of center)
-    const cx = W * 0.45, cy = H * 0.42;
+    const cx = W * 0.5, cy = H * 0.5;
 
     const branches = [
-      { label: 'GTM Strategy',    sub: ['B2B', 'Product Launch', 'OKR'],          angle: -170, color: '#0081DD', len: W*0.26 },
-      { label: 'Data & Analysis', sub: ['SQL', 'Tableau', 'Dashboard'],            angle:  -30, color: '#0099CC', len: W*0.25 },
-      { label: 'UX Research',     sub: ['User Interview', 'Prototyping', 'A/B Test'], angle:  30, color: '#38BDE0', len: W*0.26 },
-      { label: 'Leadership',      sub: ['Cross-functional', 'OKR', 'Agile'],       angle:  150, color: '#1AB8B0', len: W*0.23 },
-      { label: 'Marketing',       sub: ['SNS', 'Content', 'Campaign'],             angle: -120, color: '#77FFE4', len: W*0.22 },
+      { label: 'GTM Strategy',    sub: ['B2B', 'Product Launch', 'OKR'],          angle: -150, color: '#0081DD', len: W*0.19 },
+      { label: 'Data & Analysis', sub: ['SQL', 'Tableau', 'Dashboard'],            angle:  -35, color: '#0099CC', len: W*0.20 },
+      { label: 'UX Research',     sub: ['User Interview', 'Prototyping', 'A/B Test'], angle:  25, color: '#38BDE0', len: W*0.20 },
+      { label: 'Leadership',      sub: ['Cross-functional', 'OKR', 'Agile'],       angle:  140, color: '#1AB8B0', len: W*0.18 },
+      { label: 'Marketing',       sub: ['SNS', 'Content', 'Campaign'],             angle: -110, color: '#77FFE4', len: W*0.17 },
     ];
 
     let html = `<defs>
