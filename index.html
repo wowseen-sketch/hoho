@@ -772,41 +772,95 @@
   .nav-links { flex: 1; }
 
   /* ════ BLOCK STORAGE ════ */
-  .blk-section { display: flex; flex-direction: column; gap: 14px; }
+  .blk-section { display: flex; flex-direction: column; gap: 6px; }
   .blk-section-header { display: flex; align-items: center; gap: 10px; }
   .blk-section-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
   .blk-section-title { font-size: 12px; font-weight: 700; color: var(--ink); white-space: nowrap; letter-spacing: 0.01em; }
   .blk-section-count { font-size: 11px; font-weight: 600; color: var(--ink-4); background: var(--surface-2); border-radius: 99px; padding: 1px 8px; }
   .blk-section-line { flex: 1; height: 1px; background: var(--border); }
 
-  .blk-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  /* ── 칸반 레이아웃 ── */
+  .blk-kanban {
+    display: flex; flex-direction: column; gap: 0;
+    padding: 0 0 40px;
+    min-height: calc(100vh - 200px);
+  }
+  .blk-col {
+    width: 100%;
+    border-bottom: 1px solid var(--border);
+    border-right: none;
+    padding: 16px 24px; display: flex;
+    flex-direction: row; align-items: flex-start; gap: 16px;
+    position: relative;
+  }
+  .blk-col:last-child { border-bottom: none; }
+  .blk-col-bar {
+    width: 3px; border-radius: 99px;
+    align-self: stretch; flex-shrink: 0;
+    min-height: 40px;
+  }
+  .blk-col-header {
+    display: flex; flex-direction: column; gap: 8px;
+    width: 160px; flex-shrink: 0;
+    padding-top: 4px;
+    align-items: flex-start; justify-content: flex-start;
+  }
+  .blk-col-title {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--ink-2);
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .blk-col-count {
+    font-size: 10px; font-weight: 700; color: var(--ink-4);
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 1px 8px; border-radius: 99px; letter-spacing: 0;
+  }
+  .blk-col-add-btn {
+    width: 26px; height: 26px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--ink-3); font-size: 16px; line-height: 1;
+    transition: all 0.15s; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .blk-col-add-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
 
+  /* 칸반 카드 */
   .blk-card {
     background: var(--white); border: 1px solid var(--border);
-    border-radius: var(--rl); overflow: hidden; display: flex; flex-direction: column;
+    border-radius: 12px; padding: 16px 16px 12px;
+    margin-bottom: 10px; cursor: pointer;
     transition: box-shadow 0.15s, border-color 0.15s;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    display: flex; flex-direction: column; gap: 6px;
+    position: relative;
   }
-  .blk-card:hover { border-color: var(--border-strong); box-shadow: var(--shadow); }
-  .blk-card-top { border-top: 3px solid transparent; }
-  .blk-card-body { padding: 14px 16px; flex: 1; display: flex; flex-direction: column; gap: 5px; }
-  .blk-cat-label { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; }
-  .blk-card-title { font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.4; }
+  .blk-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.10); border-color: var(--border-strong); }
+  .blk-card-top { display: none; }
+  .blk-card-body { display: contents; }
+  .blk-cat-label { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .blk-card-title { font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.4; margin-top: 2px; }
   .blk-card-period { font-size: 11px; color: var(--ink-4); }
-  .blk-card-desc { font-size: 12px; color: var(--ink-3); line-height: 1.6; margin-top: 2px; }
-  .blk-card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+  .blk-card-desc { font-size: 11.5px; color: var(--ink-3); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 2px; }
+  .blk-card-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
   .blk-card-footer {
-    padding: 9px 16px; border-top: 1px solid var(--border);
     display: flex; align-items: center; justify-content: space-between;
+    padding-top: 8px; border-top: 1px solid var(--border); margin-top: 4px;
   }
+  .blk-folder-svg { display: none; }
+  .blk-folder-info { display: none; }
+  .blk-grid { display: flex; flex-wrap: wrap; gap: 12px; flex: 1; align-content: flex-start; }
 
+  /* 추가 버튼 */
   .blk-add {
-    border: 1.5px dashed var(--border-strong) !important; background: var(--surface) !important;
-    cursor: pointer; align-items: center; justify-content: center; min-height: 130px;
-    box-shadow: none !important;
+    border: 1.5px dashed var(--border-strong) !important;
+    background: transparent !important; border-radius: 10px !important;
+    padding: 12px !important; display: flex !important;
+    align-items: center !important; justify-content: center !important;
+    gap: 6px; cursor: pointer; color: var(--ink-4);
+    font-size: 13px; width: 100%; box-shadow: none !important;
+    transition: all 0.15s; margin-top: 2px;
   }
-  .blk-add:hover { border-color: var(--accent) !important; background: var(--accent-light) !important; }
-  .blk-add:hover i, .blk-add:hover div { color: var(--accent) !important; }
+  .blk-add:hover { border-color: var(--accent) !important; color: var(--accent) !important; background: var(--accent-light) !important; }
 
   .blk-filter {
     font-size: 12px; font-weight: 500; padding: 6px 14px;
@@ -986,6 +1040,60 @@
   .user-menu-item i { font-size: 15px; color: var(--ink-3); }
   .user-menu-item.danger { color: var(--danger); }
   .user-menu-item.danger i { color: var(--danger); }
+
+  /* ── 글래스모피즘 잠금 오버레이 ── */
+  .lock-overlay-wrap { position: static; }
+  .lock-overlay {
+    position: fixed;
+    top: 56px; left: 220px; right: 0; bottom: 44px;
+    z-index: 150;
+    backdrop-filter: blur(12px) saturate(0.5) brightness(0.91);
+    -webkit-backdrop-filter: blur(12px) saturate(0.5) brightness(0.91);
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.11'/%3E%3C/svg%3E"),
+      linear-gradient(160deg,
+        rgba(240,242,246,0.72) 0%,
+        rgba(210,215,225,0.55) 40%,
+        rgba(225,228,235,0.65) 100%);
+    border-radius: 12px;
+    margin: 0;
+    border-top: none;
+    box-shadow: none;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 16px; cursor: pointer;
+    transition: none;
+  }
+  .lock-overlay:hover {
+    backdrop-filter: blur(10px) saturate(0.45) brightness(0.89);
+    -webkit-backdrop-filter: blur(10px) saturate(0.45) brightness(0.89);
+  }
+  .lock-overlay-icon {
+    width: 60px; height: 60px; border-radius: 50%;
+    background: linear-gradient(145deg, rgba(255,255,255,0.85), rgba(230,234,240,0.7));
+    border: 1.5px solid rgba(255,255,255,0.85);
+    box-shadow:
+      0 8px 24px rgba(0,0,0,0.12),
+      0 2px 4px rgba(0,0,0,0.06),
+      inset 0 1px 0 rgba(255,255,255,0.9);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; color: var(--ink-3);
+  }
+  .lock-overlay-label {
+    font-size: 13px; font-weight: 700; color: var(--ink-2);
+    background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(240,242,246,0.65));
+    padding: 7px 20px; border-radius: 99px;
+    border: 1px solid rgba(255,255,255,0.8);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.9);
+    letter-spacing: 0.01em;
+  }
+  .lock-overlay-sub {
+    font-size: 11px; color: var(--ink-4); letter-spacing: 0.03em;
+    background: rgba(255,255,255,0.5); padding: 4px 14px; border-radius: 99px;
+    border: 1px solid rgba(255,255,255,0.55);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+  }
+  .lock-overlay-wrap.unlocked .lock-overlay { display: none; }
 </style>
 </head>
 <body>
@@ -1019,42 +1127,38 @@
       <i class="ti ti-layout-sidebar-left-collapse" id="sb-toggle-icon"></i>
     </div>
     <div class="sb-content" id="sb-content">
-      <div class="sb-section">
-        <div class="sb-label">Main</div>
-        <div class="sb-item" id="sb-dashboard" onclick="navigate('dashboard')"><i class="ti ti-layout-dashboard"></i> <span class="sb-text">Dashboard</span></div>
-        <div class="sb-item" id="sb-add" onclick="navigate('add')"><i class="ti ti-plus"></i> <span class="sb-text">Add Experience <span class="sb-badge blue">new</span></span></div>
+
+      <!-- 핵심 액션 -->
+      <div class="sb-section" style="margin-top:12px;">
+        <div class="sb-item" id="sb-dashboard" onclick="navigate('dashboard')"><i class="ti ti-home"></i> <span class="sb-text">Dashboard</span></div>
+        <div class="sb-item" id="sb-add" onclick="navigate('add')"><i class="ti ti-circle-plus"></i> <span class="sb-text">Add Experience</span></div>
       </div>
+
       <div class="sb-divider"></div>
+
+      <!-- 경험 관리 -->
       <div class="sb-section">
         <div class="sb-label">Experience</div>
-        <div class="sb-item" id="sb-blocks" onclick="navigate('blocks')"><i class="ti ti-stack"></i> <span class="sb-text">Experience Archiving <span class="sb-badge">12</span></span></div>
-        <div class="sb-item" id="sb-match" onclick="navigate('match')"><i class="ti ti-building"></i> <span class="sb-text">Company / Job Match</span></div>
+        <div class="sb-item" id="sb-blocks" onclick="navigate('blocks')"><i class="ti ti-folders"></i> <span class="sb-text">Experience Archiving <span class="sb-badge">12</span></span></div>
+        <div class="sb-item" id="sb-match" onclick="navigate('match')"><i class="ti ti-search"></i> <span class="sb-text">Company / Job Match</span></div>
+        <div class="sb-item" id="sb-matchstore" onclick="navigate('matchstore')"><i class="ti ti-chart-bar"></i> <span class="sb-text">Match Archiving <span class="sb-badge blue">3</span></span></div>
       </div>
+
       <div class="sb-divider"></div>
-      <div class="sb-section">
-        <div class="sb-label">Results</div>
-        <div class="sb-item" id="sb-matchstore" onclick="navigate('matchstore')"><i class="ti ti-database"></i> <span class="sb-text">Match Archiving <span class="sb-badge blue">3</span></span></div>
-      </div>
-      <div class="sb-divider"></div>
+
+      <!-- 계정 -->
       <div class="sb-section">
         <div class="sb-label">Account</div>
         <div class="sb-item" id="sb-profile" onclick="onProfileClick()" style="cursor:pointer;">
-          <i class="ti ti-user"></i>
+          <i class="ti ti-user-circle"></i>
           <span class="sb-text">
             <span>Profile</span>
             <div id="sb-profile-email" style="font-size:10px;color:var(--ink-4);margin-top:2px;line-height:1.3;font-weight:400;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px;">Not signed in</div>
           </span>
         </div>
-        <div class="sb-item"><i class="ti ti-settings"></i> <span class="sb-text">Settings</span></div>
+        <div class="sb-item" onclick="openFeedbackModal()" style="cursor:pointer;"><i class="ti ti-message-report"></i> <span class="sb-text">Feedback</span></div>
       </div>
-      <div class="sb-divider"></div>
-      <div class="sb-section">
-        <div class="sb-label">Support</div>
-        <div class="sb-item" onclick="openFeedbackModal()" style="cursor:pointer;">
-          <i class="ti ti-message-report"></i>
-          <span class="sb-text">Send Feedback</span>
-        </div>
-      </div>
+
     </div>
   </aside>
 
@@ -1070,7 +1174,7 @@
           <div>
             <div class="hero-eyebrow">DASHBOARD</div>
             <div class="hero-title" id="dashboard-hero-title">Welcome back, <em>Ji-won</em><br>Keep building your career</div>
-            <div class="hero-sub">You have 12 experience blocks saved. Start matching analysis with 3 companies today.</div>
+            <div class="hero-sub" id="hero-sub-text">Your career story, organized and ready.</div>
             <div class="hero-actions">
               <button class="btn-blue" onclick="navigate('add')"><i class="ti ti-plus" style="font-size:14px"></i> Add Experience</button>
               <button class="btn-outline-white" onclick="navigate('match')"><i class="ti ti-building" style="font-size:14px"></i> Company Analysis</button>
@@ -1235,8 +1339,8 @@
         </div>
       </div>
 
-      <!-- Experience Timeline — full width -->
-      <div style="padding:0 32px 32px;">
+      <!-- Experience Timeline removed -->
+      <div style="display:none;">
         <div class="card">
           <div class="card-head">
             <div class="card-title"><i class="ti ti-timeline"></i> Experience Timeline</div>
@@ -1292,9 +1396,9 @@
               </div>
 
               <!-- Dots on line -->
-              <div style="position:absolute;left:13%;top:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:#D97706;border:2px solid var(--white);box-shadow:0 0 0 1px #D97706;"></div>
+              <div style="position:absolute;left:13%;top:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:#38BDE0;border:2px solid var(--white);box-shadow:0 0 0 1px #D97706;"></div>
               <div style="position:absolute;left:55%;top:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:#0081DD;border:2px solid var(--white);box-shadow:0 0 0 1px #0081DD;"></div>
-              <div style="position:absolute;left:72%;top:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:#D97706;border:2px solid var(--white);box-shadow:0 0 0 1px #D97706;"></div>
+              <div style="position:absolute;left:72%;top:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:#38BDE0;border:2px solid var(--white);box-shadow:0 0 0 1px #D97706;"></div>
 
               <!-- Blocks BELOW line -->
               <!-- Marketing 2022.01 = 37/60 = 61.7% -->
@@ -1314,8 +1418,8 @@
               </div>
 
               <!-- Below dots -->
-              <div style="position:absolute;left:62%;top:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:#059669;border:2px solid var(--white);box-shadow:0 0 0 1px #059669;"></div>
-              <div style="position:absolute;left:78%;top:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:#059669;border:2px solid var(--white);box-shadow:0 0 0 1px #059669;"></div>
+              <div style="position:absolute;left:62%;top:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:#00A896;border:2px solid var(--white);box-shadow:0 0 0 1px #059669;"></div>
+              <div style="position:absolute;left:78%;top:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:#00A896;border:2px solid var(--white);box-shadow:0 0 0 1px #059669;"></div>
               <div style="position:absolute;left:85%;top:50%;transform:translate(-50%,-50%);width:9px;height:9px;border-radius:50%;background:#0081DD;border:2px solid var(--white);box-shadow:0 0 0 1px #0081DD;"></div>
 
               <!-- Now marker -->
@@ -1327,8 +1431,8 @@
             <!-- Legend -->
             <div style="display:flex;gap:16px;margin-top:8px;justify-content:flex-end;">
               <div style="display:flex;align-items:center;gap:5px;"><div style="width:8px;height:8px;border-radius:50%;background:#0081DD;"></div><span style="font-size:11px;color:var(--ink-4);">Project</span></div>
-              <div style="display:flex;align-items:center;gap:5px;"><div style="width:8px;height:8px;border-radius:50%;background:#059669;"></div><span style="font-size:11px;color:var(--ink-4);">Work Exp.</span></div>
-              <div style="display:flex;align-items:center;gap:5px;"><div style="width:8px;height:8px;border-radius:50%;background:#D97706;"></div><span style="font-size:11px;color:var(--ink-4);">Leadership</span></div>
+              <div style="display:flex;align-items:center;gap:5px;"><div style="width:8px;height:8px;border-radius:50%;background:#00A896;"></div><span style="font-size:11px;color:var(--ink-4);">Work Exp.</span></div>
+              <div style="display:flex;align-items:center;gap:5px;"><div style="width:8px;height:8px;border-radius:50%;background:#38BDE0;"></div><span style="font-size:11px;color:var(--ink-4);">Leadership</span></div>
             </div>
 
           </div>
@@ -1425,7 +1529,7 @@
         <div style="margin-bottom:28px;padding:24px;background:var(--white);border:1px solid var(--border);border-radius:var(--rl);position:relative;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
             <div style="display:flex;align-items:center;gap:10px;">
-              <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#0081DD,#38BDE0);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;">1</div>
+              <div style="width:28px;height:28px;border-radius:8px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--ink-3);">1</div>
               <div>
                                 <div style="font-size:15px;font-weight:700;color:var(--ink);">What were you trying to achieve?</div>
               </div>
@@ -1449,7 +1553,7 @@
         <div style="margin-bottom:28px;padding:24px;background:var(--white);border:1px solid var(--border);border-radius:var(--rl);">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
             <div style="display:flex;align-items:center;gap:10px;">
-              <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#0081DD,#38BDE0);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;">2</div>
+              <div style="width:28px;height:28px;border-radius:8px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--ink-3);">2</div>
               <div>
                                 <div style="font-size:15px;font-weight:700;color:var(--ink);">What did you actually do?</div>
               </div>
@@ -1472,7 +1576,7 @@
         <div style="margin-bottom:28px;padding:24px;background:var(--white);border:1px solid var(--border);border-radius:var(--rl);">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
             <div style="display:flex;align-items:center;gap:10px;">
-              <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#0081DD,#38BDE0);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;">3</div>
+              <div style="width:28px;height:28px;border-radius:8px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--ink-3);">3</div>
               <div>
                                 <div style="font-size:15px;font-weight:700;color:var(--ink);">What were the outcomes?</div>
               </div>
@@ -1489,7 +1593,7 @@
         <div style="margin-bottom:28px;padding:24px;background:var(--white);border:1px solid var(--border);border-radius:var(--rl);">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
             <div style="display:flex;align-items:center;gap:10px;">
-              <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#0081DD,#38BDE0);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;">4</div>
+              <div style="width:28px;height:28px;border-radius:8px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--ink-3);">4</div>
               <div>
                                 <div style="font-size:15px;font-weight:700;color:var(--ink);">How did this change you?</div>
               </div>
@@ -1544,7 +1648,7 @@
       </div>
 
       <!-- Top Bar: Search + Category Filter + Add Button -->
-      <div style="padding:16px 44px;background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;position:sticky;top:52px;z-index:50;">
+      <div style="padding:12px 24px;background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;position:sticky;top:52px;z-index:50;flex-wrap:wrap;">
         <div style="display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--r);padding:0 12px;flex:1;max-width:320px">
           <i class="ti ti-search" style="color:var(--ink-3);font-size:14px"></i>
           <input type="text" placeholder="Search blocks, skills, or companies..." style="background:none;border:none;outline:none;font-family:var(--ff-head);font-size:13px;color:var(--ink);padding:8px 0;width:100%">
@@ -1558,91 +1662,94 @@
           <div class="blk-filter" onclick="filterBlocks('education', this)">Education</div>
           <div class="blk-filter" onclick="filterBlocks('extra', this)">Extracurricular</div>
         </div>
-        <div style="margin-left:auto">
+        <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+          <button id="blk-delete-btn" onclick="deleteSelectedBlocks()" style="display:none;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--ink-3);background:var(--white);border:1px solid var(--border-strong);border-radius:var(--rl);padding:8px 16px;cursor:pointer;">
+            <i class="ti ti-trash" style="font-size:13px;"></i> Delete (<span id="blk-delete-count">0</span>)
+          </button>
           <button class="btn-blue" onclick="navigate('add')"><i class="ti ti-plus" style="font-size:13px"></i> Add Experience</button>
         </div>
       </div>
 
-      <!-- Category Sections (populated by loadUserBlocks; seed cards removed) -->
-      <div id="blocks-sections" style="padding:32px 44px;display:flex;flex-direction:column;gap:36px;">
+      <!-- 칸반 보드 -->
+      <div id="blocks-sections" class="blk-kanban">
 
         <!-- PROJECT -->
-        <div class="blk-section" data-category="project">
-          <div class="blk-section-header">
-            <div class="blk-section-dot" style="background:var(--accent)"></div>
-            <div class="blk-section-title">Project</div>
-            <div class="blk-section-count">0</div>
-            <div class="blk-section-line"></div>
+        <div class="blk-col blk-section" data-category="project">
+          <div class="blk-col-bar" style="background:#0081DD;"></div>
+          <div class="blk-col-header">
+            <div class="blk-col-title">
+              <span style="width:7px;height:7px;border-radius:50%;background:#0081DD;display:inline-block;"></span>
+              Project
+              <span class="blk-col-count blk-section-count">0</span>
+            </div>
+            <div class="blk-col-add-btn" onclick="navigate('add')">+</div>
           </div>
           <div class="blk-grid">
-            <div class="blk-card blk-add" onclick="navigate('add')" data-type="project">
-              <i class="ti ti-plus" style="font-size:22px;color:var(--ink-3)"></i>
-              <div style="font-size:13px;color:var(--ink-3);margin-top:8px">Add Block</div>
-            </div>
+
           </div>
         </div>
 
         <!-- WORK EXPERIENCE -->
-        <div class="blk-section" data-category="work">
-          <div class="blk-section-header">
-            <div class="blk-section-dot" style="background:#C47A00"></div>
-            <div class="blk-section-title">Work Experience</div>
-            <div class="blk-section-count">0</div>
-            <div class="blk-section-line"></div>
+        <div class="blk-col blk-section" data-category="work">
+          <div class="blk-col-bar" style="background:#38BDE0;"></div>
+          <div class="blk-col-header">
+            <div class="blk-col-title">
+              <span style="width:7px;height:7px;border-radius:50%;background:#38BDE0;display:inline-block;"></span>
+              Work Experience
+              <span class="blk-col-count blk-section-count">0</span>
+            </div>
+            <div class="blk-col-add-btn" onclick="navigate('add')">+</div>
           </div>
           <div class="blk-grid">
-            <div class="blk-card blk-add" onclick="navigate('add')" data-type="work">
-              <i class="ti ti-plus" style="font-size:22px;color:var(--ink-3)"></i>
-              <div style="font-size:13px;color:var(--ink-3);margin-top:8px">Add Block</div>
-            </div>
+
           </div>
         </div>
 
         <!-- LEADERSHIP -->
-        <div class="blk-section" data-category="leadership">
-          <div class="blk-section-header">
-            <div class="blk-section-dot" style="background:var(--success)"></div>
-            <div class="blk-section-title">Leadership</div>
-            <div class="blk-section-count">0</div>
-            <div class="blk-section-line"></div>
+        <div class="blk-col blk-section" data-category="leadership">
+          <div class="blk-col-bar" style="background:#00A896;"></div>
+          <div class="blk-col-header">
+            <div class="blk-col-title">
+              <span style="width:7px;height:7px;border-radius:50%;background:#00A896;display:inline-block;"></span>
+              Leadership
+              <span class="blk-col-count blk-section-count">0</span>
+            </div>
+            <div class="blk-col-add-btn" onclick="navigate('add')">+</div>
           </div>
           <div class="blk-grid">
-            <div class="blk-card blk-add" onclick="navigate('add')" data-type="leadership">
-              <i class="ti ti-plus" style="font-size:22px;color:var(--ink-3)"></i>
-              <div style="font-size:13px;color:var(--ink-3);margin-top:8px">Add Block</div>
-            </div>
+
           </div>
         </div>
 
         <!-- EDUCATION -->
-        <div class="blk-section" data-category="education">
-          <div class="blk-section-header">
-            <div class="blk-section-dot" style="background:#8B5CF6"></div>
-            <div class="blk-section-title">Education / Certification</div>
-            <div class="blk-section-count">0</div>
-            <div class="blk-section-line"></div>
+        <div class="blk-col blk-section" data-category="education">
+          <div class="blk-col-bar" style="background:#006DAA;"></div>
+          <div class="blk-col-header">
+            <div class="blk-col-title">
+              <span style="width:7px;height:7px;border-radius:50%;background:#006DAA;display:inline-block;"></span>
+              Education
+              <span class="blk-col-count blk-section-count">0</span>
+            </div>
+            <div class="blk-col-add-btn" onclick="navigate('add')">+</div>
           </div>
           <div class="blk-grid">
-            <div class="blk-card blk-add" onclick="navigate('add')" data-type="education">
-              <i class="ti ti-plus" style="font-size:22px;color:var(--ink-3)"></i>
-              <div style="font-size:13px;color:var(--ink-3);margin-top:8px">Add Block</div>
-            </div>
+
           </div>
         </div>
 
         <!-- EXTRACURRICULAR -->
-        <div class="blk-section" data-category="extra">
-          <div class="blk-section-header">
-            <div class="blk-section-dot" style="background:#EC4899"></div>
-            <div class="blk-section-title">Extracurricular</div>
-            <div class="blk-section-count">0</div>
-            <div class="blk-section-line"></div>
+        <div class="blk-col blk-section" data-category="extra">
+          <div class="blk-col-bar" style="background:#77CCE0;"></div>
+          <div class="blk-col-header">
+            <div class="blk-col-title">
+              <span style="width:7px;height:7px;border-radius:50%;background:#77CCE0;display:inline-block;"></span>
+              Extracurricular
+              <span class="blk-col-count blk-section-count">0</span>
+            </div>
+            <div class="blk-col-add-btn" onclick="navigate('add')">+</div>
           </div>
           <div class="blk-grid">
-            <div class="blk-card blk-add" onclick="navigate('add')" data-type="extra">
-              <i class="ti ti-plus" style="font-size:22px;color:var(--ink-3)"></i>
-              <div style="font-size:13px;color:var(--ink-3);margin-top:8px">Add Block</div>
-            </div>
+
           </div>
         </div>
 
@@ -1674,12 +1781,16 @@
 
     <!-- ════ PAGE: MATCH ════ -->
     <!-- ════ PAGE: COMPANY / JOB INPUT ════ -->
-    <div id="page-match" class="page">
-
+    <div id="page-match" class="page lock-overlay-wrap">
       <div class="page-header">
         <div class="page-eyebrow">COMPANY · JOB INPUT</div>
         <div class="page-title">Company / Job Input</div>
         <div class="page-sub">Enter the company and role, upload the JD — AI will analyze your fit score</div>
+      </div>
+      <div class="lock-overlay" onclick="togglePageLock('page-match')">
+        <div class="lock-overlay-icon"><i class="ti ti-lock"></i></div>
+        <div class="lock-overlay-label">Coming Soon</div>
+        <div class="lock-overlay-sub">Click to preview</div>
       </div>
 
       <!-- Two col: form left, saved list right -->
@@ -1960,13 +2071,17 @@
     </div>
 
     <!-- ════ PAGE: MATCH ARCHIVING ════ -->
-    <div id="page-matchstore" class="page">
-
+    <div id="page-matchstore" class="page lock-overlay-wrap">
       <!-- HEADER -->
       <div class="page-header">
         <div class="page-eyebrow">MATCH ARCHIVING</div>
         <div class="page-title">Match Archiving</div>
         <div class="page-sub">View job fit scores and keyword analysis results by company — with improvement guides</div>
+      </div>
+      <div class="lock-overlay" onclick="togglePageLock('page-matchstore')">
+        <div class="lock-overlay-icon"><i class="ti ti-lock"></i></div>
+        <div class="lock-overlay-label">Coming Soon</div>
+        <div class="lock-overlay-sub">Click to preview</div>
       </div>
 
       <!-- THREE-COL LAYOUT -->
@@ -2231,11 +2346,7 @@
     <div id="page-login" class="page">
       <div class="auth-wrap">
         <div class="auth-card">
-          <div class="auth-brand">
-            <div class="auth-brand-mark">G</div>
-            <div class="auth-brand-name">GOalign</div>
-          </div>
-          <div class="auth-title">Welcome back</div>
+          <div class="auth-title">Welcome!</div>
           <div class="auth-sub">Sign in to save your experience blocks and matching results.</div>
 
           <button type="button" id="login-google" class="btn-google" onclick="signInWithGoogle('login')">
@@ -2278,10 +2389,6 @@
     <div id="page-signup" class="page">
       <div class="auth-wrap">
         <div class="auth-card">
-          <div class="auth-brand">
-            <div class="auth-brand-mark">G</div>
-            <div class="auth-brand-name">GOalign</div>
-          </div>
           <div class="auth-title">Create your account</div>
           <div class="auth-sub">Start saving your experience analysis and job matches.</div>
 
@@ -2323,6 +2430,93 @@
     </div>
 
 
+
+    <!-- ════ ONBOARDING MODAL ════ -->
+    <div id="onboarding-modal" style="
+      display:none; position:fixed; inset:0; z-index:1000;
+      background:rgba(10,20,40,0.55); backdrop-filter:blur(6px);
+      align-items:center; justify-content:center;
+    ">
+      <div style="
+        background:#fff; border-radius:24px; width:540px; max-width:92vw;
+        box-shadow:0 24px 64px rgba(0,0,0,0.18); overflow:hidden; position:relative;
+      ">
+        <!-- 진행바 -->
+        <div style="height:3px;background:var(--surface);">
+          <div id="ob-progress" style="height:3px;background:linear-gradient(90deg,#0081DD,#38BDE0);width:25%;transition:width 0.4s ease;"></div>
+        </div>
+
+        <!-- 슬라이드 영역 -->
+        <div style="padding:40px 44px 32px; min-height:280px;">
+
+          <!-- Step 1 -->
+          <div class="ob-step" id="ob-1">
+            <div style="font-size:36px;margin-bottom:16px;">📁</div>
+            <div style="font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-0.02em;margin-bottom:10px;">Welcome to Exppi!</div>
+            <div style="font-size:14px;color:var(--ink-3);line-height:1.7;max-width:380px;">
+              Exppi helps you organize your career experiences into blocks — and match them to jobs you actually want.
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="ob-step" id="ob-2" style="display:none;">
+            <div style="font-size:36px;margin-bottom:16px;">✍️</div>
+            <div style="font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-0.02em;margin-bottom:10px;">Add your experiences</div>
+            <div style="font-size:14px;color:var(--ink-3);line-height:1.7;max-width:380px;">
+              Log projects, work, leadership — anything you've done. Answer a few questions and AI extracts the keywords for you.
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="ob-step" id="ob-3" style="display:none;">
+            <div style="font-size:36px;margin-bottom:16px;">🎯</div>
+            <div style="font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-0.02em;margin-bottom:10px;">Match to companies</div>
+            <div style="font-size:14px;color:var(--ink-3);line-height:1.7;max-width:380px;">
+              Upload a job description and see how well your experience blocks fit — with a score and improvement guide.
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="ob-step" id="ob-4" style="display:none;">
+            <div style="font-size:36px;margin-bottom:16px;">🚀</div>
+            <div style="font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-0.02em;margin-bottom:10px;">You're all set!</div>
+            <div style="font-size:14px;color:var(--ink-3);line-height:1.7;max-width:380px;">
+              Start by adding your first experience. It only takes 2 minutes.
+            </div>
+          </div>
+        </div>
+
+        <!-- 하단 버튼 -->
+        <div style="
+          padding:20px 44px 32px;
+          display:flex; align-items:center; justify-content:space-between;
+        ">
+          <div style="display:flex;gap:8px;" id="ob-dots">
+            <div class="ob-dot active" onclick="goObStep(1)"></div>
+            <div class="ob-dot" onclick="goObStep(2)"></div>
+            <div class="ob-dot" onclick="goObStep(3)"></div>
+            <div class="ob-dot" onclick="goObStep(4)"></div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;">
+            <button onclick="closeOnboarding()" style="
+              font-size:13px;color:var(--ink-4);background:none;border:none;cursor:pointer;padding:8px 4px;
+            ">Skip</button>
+            <button id="ob-next-btn" onclick="nextObStep()" style="
+              background:linear-gradient(135deg,#0081DD,#38BDE0);
+              color:#fff;border:none;border-radius:99px;padding:10px 28px;
+              font-size:14px;font-weight:700;cursor:pointer;
+            ">Next →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      .ob-dot {
+        width:7px;height:7px;border-radius:50%;background:var(--border-strong);cursor:pointer;transition:background 0.2s;
+      }
+      .ob-dot.active { background:var(--accent-2); }
+    </style>
   </main>
 </div>
 
@@ -3108,11 +3302,11 @@
   // ── EXPERIENCE BLOCKS: load / render ───────────
   // Section visual identity per category (matches the static section dots/labels).
   const CATEGORY_STYLE = {
-    project:    { color: 'var(--accent)', label: 'Project' },
-    work:       { color: '#C47A00',       label: 'Work Experience' },
-    leadership: { color: 'var(--success)',label: 'Leadership' },
-    education:  { color: '#8B5CF6',       label: 'Education / Certification' },
-    extra:      { color: '#EC4899',       label: 'Extracurricular' },
+    project:    { color: '#0081DD', label: 'Project' },
+    work:       { color: '#38BDE0', label: 'Work Experience' },
+    leadership: { color: '#00A896', label: 'Leadership' },
+    education:  { color: '#006DAA', label: 'Education' },
+    extra:      { color: '#77CCE0', label: 'Extracurricular' },
   };
 
   // Minimal HTML escaper for user-supplied text rendered via innerHTML.
@@ -3158,34 +3352,33 @@
       }
     }
 
-    // Description snippet: prefer actions, fall back to goal/outcome.
-    const desc = row.actions || row.goal || row.outcome_measurable || '';
-
-    // Tags: up to 3 keywords from the JSONB array.
-    const kws = Array.isArray(row.competency_keywords) ? row.competency_keywords.slice(0, 3) : [];
-    const tagsHtml = kws.map(k => `<span class="tag">${escapeHtml(k)}</span>`).join('');
-
-    // Footer status: outcome present vs missing.
+    const fc = style.color;
     const hasOutcome = !!(row.outcome_measurable && row.outcome_measurable.trim());
-    const footerHtml = hasOutcome
-      ? `<div style="display:flex;align-items:center;gap:6px"><i class="ti ti-circle-check" style="font-size:13px;color:var(--success)"></i><span style="font-size:11px;font-weight:500;color:var(--success);letter-spacing:0.03em">OUTCOME OPTIMIZED</span></div>`
-      : `<div style="display:flex;align-items:center;gap:6px"><i class="ti ti-clock" style="font-size:13px;color:var(--warn)"></i><span style="font-size:11px;font-weight:500;color:var(--warn);letter-spacing:0.03em">NEEDS OUTCOME</span></div>`;
+    const kws = (row.competency_keywords||[]).concat(row.job_keywords||[]).filter(Boolean).slice(0,3);
+    const tagsHtmlNew = kws.map(k=>`<span style="font-size:10px;color:var(--ink-3);background:var(--surface);border:1px solid var(--border);padding:2px 8px;border-radius:99px;">#${escapeHtml(k)}</span>`).join('');
+    const descShort = (row.situation||row.task||row.actions||'').slice(0,100);
 
     const el = document.createElement('div');
     el.className = 'blk-card dyn';
     el.dataset.type = cat;
     el.innerHTML = `
-      <div class="blk-card-top" style="border-top-color:${style.color}"></div>
-      <div class="blk-card-body">
-        <div class="blk-cat-label" style="color:${style.color}">${escapeHtml(style.label)}</div>
-        <div class="blk-card-title">${escapeHtml(row.title || 'Untitled')}</div>
-        <div class="blk-card-period">${escapeHtml(period)}</div>
-        <div class="blk-card-desc">${escapeHtml(desc)}</div>
-        <div class="blk-card-tags">${tagsHtml}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="blk-cat-label" style="color:${fc}">${escapeHtml(style.label)}</div>
+        <input type="checkbox" class="blk-card-check" data-id="${row.id}"
+          onclick="event.stopPropagation();updateDeleteBtn()"
+          style="width:15px;height:15px;cursor:pointer;accent-color:var(--accent-2);">
       </div>
+      <div class="blk-card-title">${escapeHtml(row.title || 'Untitled')}</div>
+      <div class="blk-card-period">${escapeHtml(period)}</div>
+      ${descShort ? `<div class="blk-card-desc">${escapeHtml(descShort)}</div>` : ''}
+      <div class="blk-card-tags">${tagsHtmlNew}</div>
       <div class="blk-card-footer">
-        ${footerHtml}
-        <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-3);cursor:pointer"><i class="ti ti-edit" style="font-size:14px"></i> Edit</div>
+        <div style="font-size:10px;font-weight:600;color:${hasOutcome ? 'var(--success)' : 'var(--warn)'};display:flex;align-items:center;gap:4px;">
+          <i class="ti ti-circle-check" style="font-size:12px;"></i> ${hasOutcome ? 'OUTCOME OPTIMIZED' : 'NEEDS OUTCOME'}
+        </div>
+        <button class="blk-card-edit-btn" onclick="event.stopPropagation()" style="background:none;border:none;color:#9CA3AF;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:4px;opacity:0.6;">
+          <i class="ti ti-edit" style="font-size:11px;"></i> Edit
+        </button>
       </div>
     `;
     return el;
@@ -3284,14 +3477,14 @@
     svg.setAttribute('height', H);
 
     // center node position (slightly left of center)
-    const cx = W * 0.42, cy = H * 0.5;
+    const cx = W * 0.45, cy = H * 0.42;
 
     const branches = [
-      { label: 'GTM Strategy',    sub: ['B2B', 'Product Launch', 'OKR'],          angle: -140, color: '#0081DD', len: Math.min(W,H)*0.24 },
-      { label: 'Data & Analysis', sub: ['SQL', 'Tableau', 'Dashboard'],            angle:  -65, color: '#0099CC', len: Math.min(W,H)*0.26 },
-      { label: 'UX Research',     sub: ['User Interview', 'Prototyping', 'A/B Test'], angle: 10, color: '#38BDE0', len: Math.min(W,H)*0.27 },
-      { label: 'Leadership',      sub: ['Cross-functional', 'OKR', 'Agile'],       angle:  75, color: '#1AB8B0', len: Math.min(W,H)*0.25 },
-      { label: 'Marketing',       sub: ['SNS', 'Content', 'Campaign'],             angle: 145, color: '#77FFE4', len: Math.min(W,H)*0.24 },
+      { label: 'GTM Strategy',    sub: ['B2B', 'Product Launch', 'OKR'],          angle: -170, color: '#0081DD', len: W*0.26 },
+      { label: 'Data & Analysis', sub: ['SQL', 'Tableau', 'Dashboard'],            angle:  -30, color: '#0099CC', len: W*0.25 },
+      { label: 'UX Research',     sub: ['User Interview', 'Prototyping', 'A/B Test'], angle:  30, color: '#38BDE0', len: W*0.26 },
+      { label: 'Leadership',      sub: ['Cross-functional', 'OKR', 'Agile'],       angle:  150, color: '#1AB8B0', len: W*0.23 },
+      { label: 'Marketing',       sub: ['SNS', 'Content', 'Campaign'],             angle: -120, color: '#77FFE4', len: W*0.22 },
     ];
 
     let html = `<defs>
@@ -3413,6 +3606,10 @@
 
     // Refresh dynamic content when entering the Blocks page.
     if (target === 'blocks') loadUserBlocks();
+    // 잠금 페이지 진입 시 오버레이 top 재계산
+    if (target === 'match' || target === 'matchstore') {
+      setTimeout(() => initLockOverlays(), 50);
+    }
   }
 
   let sidebarCollapsed = false;
@@ -3465,13 +3662,9 @@
     if (!el) return;
     if (currentUser) {
       const name = getDisplayName(currentUser);
-      if (currentUser.isNew) {
-        el.innerHTML = `Welcome to Exppi, <em>${name}</em>!<br>Let's build your career story`;
-      } else {
-        el.innerHTML = `Welcome back, <em>${name}</em><br>Keep building your career`;
-      }
+      el.innerHTML = `Welcome to Exppi, <em>${name}</em>!`;
     } else {
-      el.innerHTML = `Welcome back, <em>Ji-won</em><br>Keep building your career`;
+      el.innerHTML = `Welcome to Exppi`;
     }
   }
 
@@ -3508,6 +3701,7 @@
       closeUserMenu();
     }
     updateDashboardGreeting();
+    checkShowOnboarding();
   }
 
   async function refreshAuthState() {
@@ -3641,6 +3835,102 @@
     if (!currentUser) { navigate('login'); return; }
     toggleUserMenu();
   }
+
+
+  // ── 온보딩 ──
+  let _obStep = 1;
+  const _obTotal = 4;
+
+  function showOnboarding() {
+    const modal = document.getElementById('onboarding-modal');
+    if (modal) { modal.style.display = 'flex'; goObStep(1); }
+  }
+  function closeOnboarding() {
+    document.getElementById('onboarding-modal').style.display = 'none';
+    localStorage.setItem('exppi_onboarded', '1');
+  }
+  function goObStep(n) {
+    _obStep = n;
+    for (let i = 1; i <= _obTotal; i++) {
+      const el = document.getElementById('ob-' + i);
+      if (el) el.style.display = i === n ? 'block' : 'none';
+    }
+    // 진행바
+    document.getElementById('ob-progress').style.width = (n / _obTotal * 100) + '%';
+    // 점
+    document.querySelectorAll('.ob-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === n - 1);
+    });
+    // 마지막 버튼
+    const btn = document.getElementById('ob-next-btn');
+    if (n === _obTotal) {
+      btn.textContent = 'Get started!';
+      btn.onclick = () => { closeOnboarding(); navigate('add'); };
+    } else {
+      btn.textContent = 'Next →';
+      btn.onclick = nextObStep;
+    }
+  }
+  function nextObStep() {
+    if (_obStep < _obTotal) goObStep(_obStep + 1);
+  }
+
+  // 첫 방문 시 자동 표시 (renderAuthUI 이후 호출됨)
+  function checkShowOnboarding() {
+    if (!localStorage.getItem('exppi_onboarded') && currentUser) {
+      setTimeout(showOnboarding, 600);
+    }
+  }
+
+  function updateDeleteBtn() {
+    const checked = document.querySelectorAll('.blk-card-check:checked');
+    const btn = document.getElementById('blk-delete-btn');
+    const count = document.getElementById('blk-delete-count');
+    if (!btn) return;
+    if (checked.length > 0) {
+      btn.style.display = 'flex';
+      count.textContent = checked.length;
+    } else {
+      btn.style.display = 'none';
+    }
+  }
+
+  async function deleteSelectedBlocks() {
+    const checked = [...document.querySelectorAll('.blk-card-check:checked')];
+    if (!checked.length || !currentUser) return;
+    if (!confirm(`Delete ${checked.length} experience block${checked.length > 1 ? 's' : ''}?`)) return;
+    const ids = checked.map(c => c.dataset.id).filter(Boolean);
+    try {
+      const { error } = await supa.from('experience_blocks').delete().in('id', ids).eq('user_id', currentUser.id);
+      if (error) throw error;
+      checked.forEach(c => c.closest('.blk-card')?.remove());
+      updateDeleteBtn();
+      loadUserBlocks();
+    } catch(e) {
+      alert('Failed to delete. Please try again.');
+    }
+  }
+
+  function togglePageLock(pageId) {
+    const page = document.getElementById(pageId);
+    if (!page) return;
+    page.classList.toggle('unlocked');
+  }
+
+  function initLockOverlays() {
+    ['page-match', 'page-matchstore'].forEach(pageId => {
+      const page = document.getElementById(pageId);
+      if (!page) return;
+      const overlay = page.querySelector('.lock-overlay');
+      if (!overlay) return;
+      // 헤더 높이를 측정해서 오버레이 top 조정
+      const header = page.querySelector('.page-header');
+      const navH = 56;
+      const headerH = header ? header.offsetHeight : 120;
+      overlay.style.top = (navH + headerH) + 'px';
+    });
+  }
+  window.addEventListener('load', () => setTimeout(initLockOverlays, 100));
 
   function onProfileClick() {
     if (!currentUser) navigate('login');
